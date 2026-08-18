@@ -18,7 +18,7 @@ export const CreateCourseSchema = z.object({
     price: z.int()
 });
 
-export const LessonSchema= z.object({
+export const CreateLessonSchema= z.object({
     title: z.string().min(1) ,
     content:z.string() ,
     courseId: z.string()

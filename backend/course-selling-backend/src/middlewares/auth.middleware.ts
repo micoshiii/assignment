@@ -40,3 +40,17 @@ export const authMiddleware=(
     });
     }
 }
+
+export const requireRole = (role: "STUDENT" | "INSTRUCTOR") => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user?.id) {
+      return res.status(401).json({ messgae: "unauthorized user" });
+    }
+
+    if (!role.includes(req.user?.role)) {
+      return res.status(403).json({ message: "forbidden user" });
+    }
+
+    next();
+  };
+};
