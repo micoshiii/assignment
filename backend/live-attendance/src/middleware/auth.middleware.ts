@@ -28,7 +28,7 @@ export const verifyUser = async (req:Request, res:Response , next:NextFunction )
 
         req.user = {id: decodedToken.id , role:decodedToken.role} //for this we write declare global namespace thingy !!
 
-        // yr ily A <3
+      
 
         next();
 
