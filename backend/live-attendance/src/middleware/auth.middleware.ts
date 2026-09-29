@@ -37,3 +37,11 @@ export const verifyUser = async (req:Request, res:Response , next:NextFunction )
      }
 
 }
+
+export const OnlyTeacher = async(req:Request , res:Response , next:NextFunction)=>{
+  if(req.user.role != "teacher"){
+    return res.status(403).json( new ApiError("Forbidden, teacher access required"));
+  };
+
+  next();
+}

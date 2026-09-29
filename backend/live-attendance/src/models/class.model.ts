@@ -4,18 +4,18 @@ const classSchema = new Schema({
 
     className:{
         type:String ,
-        unique:true
+    
     } ,
 
     teacherId:{
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User" ,
     } ,
 
-    studentIds:{
+    studentIds:[{
        type: Schema.Types.ObjectId,
-       ref:"User" 
-    }
+       ref:"User" ,
+    }]
 
 });
 
