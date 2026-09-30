@@ -7,7 +7,7 @@ import authRouter from "./routes/auth.route";
 import classRouter from "./routes/class.router";
 import studentRouter from "./routes/student.route";
 import attendanceRouter from "./routes/attendance.route";
-
+import "./wss/ws"; 
 
 app.use(express.json());
 

@@ -7,5 +7,5 @@ export interface ActiveSession {
 export const activeSession : ActiveSession = {
     classId :null ,
     startedAt : null ,
-    attendance: {}
+    attendance: {} //key 
 };

@@ -1,0 +1,11 @@
+export class WsError {
+    event="ERROR";
+
+    constructor(message: string){
+        this.data = {message};
+    }
+
+    data: {
+        message: string;
+    }
+}
