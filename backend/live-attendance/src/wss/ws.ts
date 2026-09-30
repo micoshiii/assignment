@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import { WebSocket } from "ws";
 import { handleAttendanceMarked } from "./events/attendanceMarked";
 import { todaySummary } from "./events/todaySummary";
+import { myAttendance } from "./events/myAttendance";
+import { done } from "./events/done";
 
 const wss =new WebSocketServer({
     server ,
@@ -58,12 +60,23 @@ wss.on("connection" , (ws: CustomWebSocket , req:Request)=>{
 
         switch (event) {
             case "ATTENDANCE_MARKED":
-               handleAttendanceMarked(data , ws , wss) 
+              await handleAttendanceMarked(data , ws , wss) 
             break;
 
             case "TODAY_SUMMARY":
-                todaySummary( wss , ws)
+               await todaySummary( wss , ws)
                 break;
+
+            case "MY_ATTENDANCE":
+               await myAttendance(ws)
+                break;
+            
+            case "DONE":
+                await done(ws , wss)
+                break;
+            
+            default:
+              ws.send(JSON.stringify(new WsError(`Unknown event`)));
         }
     })
 
