@@ -9,6 +9,10 @@ const attendanceSchema = new Schema({
     studentId:{
        type:Schema.Types.ObjectId,
         ref: "Class" 
+    } ,
+    status:{
+    type:String ,
+    enum: ["present" , "absent"]
     }
 });
 

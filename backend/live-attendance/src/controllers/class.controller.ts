@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/apiResponse";
 import { ApiError } from "../utils/apiError";
 import { UserModel } from "../models/user.model" ;
 import mongoose from "mongoose";
+import { AttendanceModel } from "../models/attendance.model";
 
 export const createClass = async(req:Request , res:Response)=>{
     const {data , success} = ClassSchema.safeParse(req.body);
@@ -103,4 +104,37 @@ export const classInfo = async(req:Request , res:Response )=>{
         students : classInfo.studentIds ,
     }))
 
+};
+
+export const studentAttendance = async (req:Request ,res:Response)=>{
+    const classId = req.params.id as string;
+
+    const existingClass = await ClassModel.findById(classId);
+    if(!existingClass){
+        return res.status(404).json(new ApiError("Class not found"));
+    }
+
+    const isEnrolledStudent = 
+    req.user.role === "student" &&
+    existingClass.studentIds.some( (s)=> s._id.toString() === req.user.id);
+
+    if(!isEnrolledStudent){
+        return res.status(403).json(new ApiError("Forbidden, student only"))
+    }
+
+    const attendance = await AttendanceModel.findOne({
+        classId
+    });
+
+    if(attendance?.status){
+        return res.status(200).json(new ApiResponse({
+            classId : attendance.classId,
+            status: attendance.status
+        }))
+    }
+
+    return res.status(200).json(new ApiResponse({
+        classId ,
+        status: null
+    }))
 }
